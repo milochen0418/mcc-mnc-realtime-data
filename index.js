@@ -12,9 +12,7 @@ app.use(function(req, res, next) {
     next();
 });
 
-
-
-testCode_2();
+// testCode_2();
 function testCode_2() {
     https.get('https://www.mcc-mnc.com/', (resp) => {
         let data = '';
@@ -110,12 +108,37 @@ function getMccMncList(res) {
             global.window = window;
             global.document = document;
             const $ = global.jQuery = require( 'jquery' );
-            //console.log($('#mncmccTable').text());
-            res.send($('#mncmccTable').html());
+
+            var header = []
+            $('#mncmccTable thead tr').each( (tr_idx,tr) => {
+                $(tr).children('th').each ((th_idx, th) => {
+                    header.push($(th).text().trim());
+                });                 
+            });
+
+            var body = []
+            $('#mncmccTable tbody tr').each( (tr_idx,tr) => {
+                var row = {};
+                $(tr).children('td').each ((td_idx, td) => {
+                    row[header[td_idx]] = $(td).text().trim();
+                });
+                row['PLMN_NUM']=row['MCC']+row['MNC'];
+                row['PLMN_NAME']=row['Network'];
+                body.push(row);
+            });
+            var jsonObj = {}
+            jsonObj['plmn_list'] = body;
+            //console.log(JSON.stringify(jsonObj));
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify(jsonObj));
         });
     }).on("error", (err) => {
         console.log("Error: " + err.message);
-        res.send('Error: No data');
+        var jsonObj = {}
+        jsonObj['plmn_list'] = [];
+        jsonObj['error_message'] = 'Cannot get data from https://www.mcc-mnc.com/';
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(jsonObj));
     });    
 }
 app.get('/', (req, res) => {
@@ -125,7 +148,12 @@ app.get('/mcc-mnc-list/', (req, res) => {
     getMccMncList(res);
 })
 
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
+
+app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`)
+    console.log(`You can query http://localhost:${port}/mcc-mnc-list/`);
+})
+
 
 
 

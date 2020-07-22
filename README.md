@@ -5,4 +5,12 @@ Mobile Country Codes (MCC) are used in wireless telephone networks (GSM, CDMA, U
 
 Mcc-mnc.com is a service by [SMScarrier.EU](http://www.smscarrier.eu/en) and powered by [interactive digital media GmbH](http://www.i-digital-m.com/)
 
+**MCC - Mobile Country Code**  
+This is the country code. It always has 3 digits. Some countries can use more than one MCC.  
+
+**MNC - Mobile Network Code**  
+This is the network code. It can have 2 or 3 digits.  
+
+**MCCMNC - PLMN Number.**   
+MCC + MNC  
 

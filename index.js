@@ -1,4 +1,8 @@
-let jsdom = require('jsdom').JSDOM
+//let jsdom = require('jsdom').JSDOM
+
+var jsdom = require('jsdom');
+const { JSDOM } = jsdom;
+const https = require('https');
 const express = require('express')
 const app = express()
 const port = 80
@@ -8,24 +12,46 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
-app.get('/mcc-mnn-list/', (req, res) => {
-
-    //jsdom testing
+function jsdomLocalTest(res) {
     html = ''+
     '<!DOCTYPE html>'+
         '<script>'+
             'console.log(\'I am a script tag.\');' +
         '</script>';
-     
     new jsdom(html,{ runScripts: 'dangerously' });
-    
-    //return json 
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify({ result: true }));
-    
+}
+
+
+
+function getMccMncList(res) {
+    https.get('https://www.mcc-mnc.com/', (resp) => {
+        let data = '';
+        resp.on('data', (chunk) => {
+            data += chunk;
+        });
+        resp.on('end', () => {
+            html = data;
+            const jsdom = new JSDOM(html);
+            const { window } = jsdom;
+            const { document } = window;
+            global.window = window;
+            global.document = document;
+            const $ = global.jQuery = require( 'jquery' );
+            //console.log($('#mncmccTable').text());
+            res.send($('#mncmccTable').html());
+        });
+    }).on("error", (err) => {
+        console.log("Error: " + err.message);
+        res.send('Error: No dtaa');
+    });    
+}
+app.get('/', (req, res) => {
+    res.send('Hello World!')
+})
+app.get('/mcc-mnc-list/', (req, res) => {
+    getMccMncList(res);
 })
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))

@@ -28,6 +28,8 @@
   "homepage": "https://github.com/milochen0418/mcc-mnc-realtime-data#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "https": "^1.0.0",
+    "jquery": "^3.5.1",
     "jsdom": "^16.3.0"
   }
 }

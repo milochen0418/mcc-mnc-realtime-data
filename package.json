@@ -1,0 +1,33 @@
+{
+  "name": "mcc-mnc-realtime-data",
+  "version": "1.0.0",
+  "description": "The service to get realtime data in json format from international website Mobile Country Codes (MCC) and Mobile Network Codes (MNC)",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/milochen0418/mcc-mnc-realtime-data.git"
+  },
+  "keywords": [
+    "MCC",
+    "Mobile",
+    "Country",
+    "Codes",
+    "MNC",
+    "Mobile",
+    "Network",
+    "Codes"
+  ],
+  "author": "Milo Chen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/milochen0418/mcc-mnc-realtime-data/issues"
+  },
+  "homepage": "https://github.com/milochen0418/mcc-mnc-realtime-data#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jsdom": "^16.3.0"
+  }
+}

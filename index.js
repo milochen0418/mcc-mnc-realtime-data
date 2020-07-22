@@ -47,7 +47,9 @@ function testCode_2() {
                 row['PLMN_NAME']=row['Network'];
                 body.push(row);
             });
-            console.log(JSON.stringify(body));
+            var jsonObj = {}
+            jsonObj['plmn_list'] = body;
+            console.log(JSON.stringify(jsonObj));
         });
     }).on("error", (err) => {
         console.log("Error: " + err.message);

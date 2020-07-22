@@ -151,7 +151,7 @@ app.get('/mcc-mnc-list/', (req, res) => {
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
-    console.log(`You can query http://localhost:${port}/mcc-mnc-list/`);
+    console.log(`If you want to get current .json file mapping to current information, you can open browser with this url http://localhost:${port}/mcc-mnc-list/`);
 })
 
 

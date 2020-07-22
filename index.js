@@ -14,8 +14,8 @@ app.use(function(req, res, next) {
 
 
 
-testCode();
-function testCode() {
+testCode_2();
+function testCode_2() {
     https.get('https://www.mcc-mnc.com/', (resp) => {
         let data = '';
         resp.on('data', (chunk) => {
@@ -29,7 +29,47 @@ function testCode() {
             global.window = window;
             global.document = document;
             const $ = global.jQuery = require( 'jquery' );
-            var cnt = 100;
+
+            var header = []
+            $('#mncmccTable thead tr').each( (tr_idx,tr) => {
+                $(tr).children('th').each ((th_idx, th) => {
+                    header.push($(th).text().trim());
+                });                 
+            });
+
+            var body = []
+            $('#mncmccTable tbody tr').each( (tr_idx,tr) => {
+                var row = {};
+                $(tr).children('td').each ((td_idx, td) => {
+                    row[header[td_idx]] = $(td).text().trim();
+                });
+                row['PLMN_NUM']=row['MCC']+row['MNC'];
+                row['PLMN_NAME']=row['Network'];
+                body.push(row);
+            });
+            console.log(JSON.stringify(body));
+        });
+    }).on("error", (err) => {
+        console.log("Error: " + err.message);
+        res.send('Error: No dtaa');
+    });    
+}
+
+function testCode_1() {
+    https.get('https://www.mcc-mnc.com/', (resp) => {
+        let data = '';
+        resp.on('data', (chunk) => {
+            data += chunk;
+        });
+        resp.on('end', () => {
+            html = data;
+            const jsdom = new JSDOM(html);
+            const { window } = jsdom;
+            const { document } = window;
+            global.window = window;
+            global.document = document;
+            const $ = global.jQuery = require( 'jquery' );
+
             $('#mncmccTable tbody tr').each( (tr_idx,tr) => {
                 $(tr).children('td').each ((td_idx, td) => {
                     console.log( '[' +tr_idx+ ',' +td_idx+ '] => ' + $(td).text());
@@ -73,7 +113,7 @@ function getMccMncList(res) {
         });
     }).on("error", (err) => {
         console.log("Error: " + err.message);
-        res.send('Error: No dtaa');
+        res.send('Error: No data');
     });    
 }
 app.get('/', (req, res) => {

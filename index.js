@@ -12,6 +12,35 @@ app.use(function(req, res, next) {
     next();
 });
 
+
+
+testCode();
+function testCode() {
+    https.get('https://www.mcc-mnc.com/', (resp) => {
+        let data = '';
+        resp.on('data', (chunk) => {
+            data += chunk;
+        });
+        resp.on('end', () => {
+            html = data;
+            const jsdom = new JSDOM(html);
+            const { window } = jsdom;
+            const { document } = window;
+            global.window = window;
+            global.document = document;
+            const $ = global.jQuery = require( 'jquery' );
+            var cnt = 100;
+            $('#mncmccTable tbody tr').each( (tr_idx,tr) => {
+                $(tr).children('td').each ((td_idx, td) => {
+                    console.log( '[' +tr_idx+ ',' +td_idx+ '] => ' + $(td).text());
+                });                 
+            });
+        });
+    }).on("error", (err) => {
+        console.log("Error: " + err.message);
+        res.send('Error: No dtaa');
+    });    
+}
 function jsdomLocalTest(res) {
     html = ''+
     '<!DOCTYPE html>'+
@@ -55,3 +84,7 @@ app.get('/mcc-mnc-list/', (req, res) => {
 })
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
+
+
+
+

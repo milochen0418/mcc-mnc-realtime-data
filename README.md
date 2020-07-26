@@ -16,8 +16,8 @@ MCC + MNC
 
 # Install and Execution
 ## Install
-At the First, you need to have nodeJS environment. 
-Secondly, you should use the following command to install dependent modules.
+At the First, you need to have nodeJS environment.   
+Secondly, you should use the following command to install dependent modules.  
 <code>
 $ npm install      
 </code>   

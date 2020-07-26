@@ -14,3 +14,18 @@ This is the network code. It can have 2 or 3 digits.
 **MCCMNC - PLMN Number.**   
 MCC + MNC  
 
+# Install and Execution
+## Install
+At the First, you need to have nodeJS environment. 
+Secondly, you should use the following command to install dependent modules.
+<code>
+$ npm install      
+</code>   
+Finally, your environment is ready for executing. 
+
+## Execution  
+The way to run the server  
+
+<code>  
+$ npm start   
+</code>  

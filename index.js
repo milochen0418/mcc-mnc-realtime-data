@@ -130,7 +130,7 @@ function getMccMncList(res) {
             jsonObj['plmn_list'] = body;
             //console.log(JSON.stringify(jsonObj));
             res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify(jsonObj));
+            res.send(JSON.stringify(jsonObj, null, 4));
         });
     }).on("error", (err) => {
         console.log("Error: " + err.message);

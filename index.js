@@ -124,6 +124,20 @@ function getMccMncList(res) {
                 });
                 row['PLMN_NUM']=row['MCC']+row['MNC'];
                 row['PLMN_NAME']=row['Network'];
+                //Special rule processing for PLMN NAME
+                if(row['PLMN_NAME'] === "") {
+                    row['PLMN_NAME'] = row['PLMN_NUM'];
+                } else {
+                    var plmnName = row['PLMN_NAME'];
+                    if(plmnName.length >= 4) { 
+                        var rightSubstr = plmnName.substring(plmnName.length-4,plmnName.length);
+                        if(rightSubstr === " GSM") {
+                          plmnName = plmnName.substring(0, plmnName.length-4);
+                        }
+                    }
+                    row['PLMN_NAME'] = plmnName;
+                }
+
                 body.push(row);
             });
             var jsonObj = {}

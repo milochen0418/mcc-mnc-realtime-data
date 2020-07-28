@@ -135,6 +135,7 @@ function getMccMncList(res) {
                           plmnName = plmnName.substring(0, plmnName.length-4);
                         }
                     }
+                    plmnName = plmnName.split("/")[0].trim();
                     row['PLMN_NAME'] = plmnName;
                 }
 
